@@ -1,0 +1,5 @@
+warehouse,vanA
+26inTube,5
+seatPost,3
+700-23SwhalbeTire,4
+10spRearDerailuer,3

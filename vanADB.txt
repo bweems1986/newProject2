@@ -1,0 +1,4 @@
+26inTube,1234567891,50.0,40.5,true,0
+seatPost,1234567892,60.0,50.5,true,3
+700-23SwhalbeTire,1234567894,50.0,40.5,true,4
+10spRearDerailuer,1234567896,7.0,5.58,true,3
