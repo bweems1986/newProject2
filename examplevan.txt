@@ -1,0 +1,4 @@
+warehouse,exampleVan
+tire,5
+handle,5
+brake,5
