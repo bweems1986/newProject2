@@ -5,13 +5,13 @@ public class WarehouseManager extends OfficeManager {
     public WarehouseManager(){
     }
 
-    @Override
+    //@Override
     public void examinePartName(String partName) {
-        super.examinePartName(partName);
+        super.examinePartName();
     }
 
-    @Override
+    //@Override
     public void examinePartNumber(int partNumber) {
-        super.examinePartNumber(partNumber);
+        super.examinePartNumber();
     }
 }

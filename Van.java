@@ -1,5 +1,4 @@
-//VanWarehouse currently reads in a van inventory file and adds it to the van warehouse DB
-package com.company;
+package com.company;//VanWarehouse currently reads in a van inventory file and adds it to the van warehouse DB
 
 import java.io.*;
 import java.util.ArrayList;
