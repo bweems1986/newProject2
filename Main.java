@@ -1,6 +1,4 @@
-package com.company;
-
-/**
+package com.company; /**
  * This program is inventory management system for bike parts. It allows a user to read in an inventory file to the warehouseDB text file.
  * The user can read in a file, enter a part manually, sell a part by part number, display a part by part name, sort the inventory by part name and
  * sort the inventory by part number.
@@ -13,17 +11,14 @@ package com.company;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
-
-import static com.company.Warehouse.*;
 
 public class Main {
 
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-
+        SystemAdministrator.logIn();
         int choice = 0;
         Scanner userInput = new Scanner(System.in);
         Warehouse warehouse = new Warehouse();
@@ -93,16 +88,12 @@ public class Main {
                     }
                 }
             }else if(choice == 13){//creates a database of user accounts, needs to be available only to system administrator
-                    systemAdministrator.addUserAccount(SystemAdministrator.createAccount());
+                    systemAdministrator.addUserAccount(SystemAdministrator.createAccount(1));
             }else if(choice == 14){//needs to be available only to office manager
-                System.out.print("Please enter a part name: ");
-                String partName = userInput.next();
-                officeManager.examinePartName(partName);
+                officeManager.examinePartName();
 
             }else if(choice == 15){//available only to office manager
-                System.out.println("Please enter a part number: ");
-                int partNumber = userInput.nextInt();
-                officeManager.examinePartNumber(partNumber);
+                officeManager.examinePartNumber();
 
             }else if(choice == 16){//these need to be available only to warehouse manager
                 System.out.println("Please enter a part name: ");
@@ -113,7 +104,7 @@ public class Main {
                 int partNumber = userInput.nextInt();
                 warehouseManager.examinePartNumber(partNumber);
             }else if(choice == 18){
-                systemAdministrator.logIn();
+
             }
 
             else {
@@ -150,7 +141,8 @@ public class Main {
             onSale = userInput.nextBoolean();
             System.out.print("Please enter part quantity: ");
             quantity = userInput.nextInt();
-            return new BikePart(partName, partNumber, listPrice, salePrice, onSale, quantity, minimumQuantity);//create bikepart object
+            return new BikePart(partName, partNumber, listPrice, salePrice,
+                    onSale, quantity, minimumQuantity);//create bikepart object
 
         } catch (InputMismatchException e) {
             throw e;
@@ -175,7 +167,7 @@ public class Main {
                 "11: Sort all warehouses by part name\n" +
                 "12: Sort all warehouses by part number\n" +
                 "13: Quit\n" +
-                "Enter your choice: \n"
+                "Enter your choice: "
         );
     }
 

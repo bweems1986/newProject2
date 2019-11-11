@@ -1,15 +1,20 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class OfficeManager extends Warehouse {
 
     Warehouse partWarehouse = new Warehouse();
+    public Scanner officeIn = new Scanner(System.in);
 
     public OfficeManager() {
 
     }
 
-    public void examinePartName(String partName) {//office manager can enter a part name and receives part info
+    public void examinePartName() {//office manager can enter a part name and receives part info
         //super.findPart(partName);//figure out how to call superclass method and add additional
+        System.out.print("Enter the name of the part you want to examine: ");
+        String partName = officeIn.nextLine();
         boolean found = false;
 
         for (int i = 0; bikeParts.size() > i; i++) {
@@ -26,8 +31,10 @@ public class OfficeManager extends Warehouse {
         }
     }
 
-    public void examinePartNumber(int partNumber) {//office manager can enter part number and get part info
+    public void examinePartNumber() {//office manager can enter part number and get part info
         //super.findPart(partNumber);
+        System.out.print("Enter the name of the part you want to examine: ");
+        int partNumber = officeIn.nextInt();
         boolean found = false;
 
         for (int i = 0; bikeParts.size() > i; i++) {
