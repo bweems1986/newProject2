@@ -10,6 +10,7 @@ package com.company;
  */
 
 
+import javax.xml.soap.SAAJMetaFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -31,7 +32,8 @@ public class Main {
         OfficeManager officeManager = new OfficeManager();
         BikePart bikePart = new BikePart();
         WarehouseManager warehouseManager = new WarehouseManager();
-        //Van van = new Van();
+        Van van = new Van();
+
 
         while (choice != 99) {
             printMenu();
@@ -114,14 +116,46 @@ public class Main {
                 warehouseManager.examinePartNumber(partNumber);
             }else if(choice == 18){
                 systemAdministrator.logIn();
-            }
+            }else if(choice == 19){//test method to sell parts by number
+                System.out.println("Enter your van name: ");
+                String vanName  = userInput.next();
+                SalesAssociate salesAssociate = new SalesAssociate(vanName);
 
-            else {
-                System.out.print("Bye!");
-                System.exit(7);
+                Scanner partQuantity  = new Scanner(System.in);
+
+                System.out.println("Please enter the number of unique parts you are selling: ");
+                int uniqueParts = partQuantity.nextInt();
+                for(int j = 0; j < uniqueParts; j++) {
+                    System.out.print("Please enter a part number: ");
+
+                    int partNumber = userInput.nextInt();
+                    if (salesAssociate.findPart(partNumber)) {
+                        salesAssociate.sellPart(partNumber);
+                    } else {
+                        System.out.println("Part not found. Try again.");
+                    }
+                }
+            }else if(choice == 20){//test method to sell parts by name
+                System.out.println("Enter your van name: ");
+                String vanName  = userInput.next();
+                SalesAssociate salesAssociate = new SalesAssociate(vanName);
+
+                Scanner partQuantity  = new Scanner(System.in);
+
+                System.out.println("Please enter the number of unique parts you are selling: ");
+                int uniqueParts = partQuantity.nextInt();
+                for(int j = 0; j < uniqueParts; j++) {
+                    System.out.print("Please enter a part name: ");
+
+                    String partName = userInput.next();
+                    if (salesAssociate.findPart(partName)) {
+                        salesAssociate.sellPart(partName);
+                    } else {
+                        System.out.println("Part not found. Try again.");
+                    }
+                }
             }
         }
-
     }//closes main method
 
 
@@ -150,6 +184,7 @@ public class Main {
             onSale = userInput.nextBoolean();
             System.out.print("Please enter part quantity: ");
             quantity = userInput.nextInt();
+            System.out.print("Please enter the minimum quantity you want in inventory: ");
             return new BikePart(partName, partNumber, listPrice, salePrice, onSale, quantity, minimumQuantity);//create bikepart object
 
         } catch (InputMismatchException e) {
@@ -201,14 +236,18 @@ public class Main {
 
             //from first line create string with origin and destination
             //then split into array, grabbing appropriate values and storing them in string vars
-            String originDestination = fileReader.nextLine();//skipping first line of van inventory file
-            String origin = originDestination.split(",")[0];
-            String destination = originDestination.split(",")[1];
+            String originDestinationAssociate = fileReader.nextLine();//skipping first line of van inventory file
+            String origin = originDestinationAssociate.split(",")[0];
+            String destination = originDestinationAssociate.split(",")[1];
+
+            //add check here so that a sales associate cannot load another ones van, only worried about an associate loading
+            //the correct van from the warehouse, transfer from van to van are fine
 
             //handle all scenarios for transfer
             if(origin.equals("warehouse") && !destination.equals("warehouse")) { //warehouse to van
                 Warehouse originWarehouse = new Warehouse(); //create warehouse object for transfer purposes
                 Van destWarehouse = new Van(destination); //create van object for transfer purposes
+
                 while (fileReader.hasNextLine()) {
                     String currentLine = fileReader.nextLine(); //create var currentline and set to current line of the file
                     String name = currentLine.split(",")[0]; //store part name
@@ -264,33 +303,36 @@ public class Main {
 
         System.out.println("Please enter the warehouse you are transferring to: ");
         String vanName = input.next();
+
+        System.out.println("Please enter the sales associate for this sales van: ");
+        String associateName = input.next();
+
         System.out.println("Please enter the number of parts you want to put in the van: ");
         int partNumber = input.nextInt();
 
 
-        for(int i = 0; i < partNumber; i++) {
+        for (int i = 0; i < partNumber; i++) {
 
             System.out.println("Please enter the part name: ");
             vanPartName = input.next();
             System.out.println("Please enter the quantity: ");
             vanPartQuantity = input.nextInt();
-            vanInventory.add(vanPartName+","+ vanPartQuantity);
+            vanInventory.add(vanPartName + "," + vanPartQuantity);
         }
 
         try {
             File file = new File(fileFile);
             FileWriter write = new FileWriter((fileFile));
 
-            write.write(transferWarehouse + "," + vanName);
+            write.write(transferWarehouse + "," + vanName + "," + associateName);
             write.write("\n");
 
-            for(String str: vanInventory){
+            for (String str : vanInventory) {
                 write.write(str + System.lineSeparator());
             }
             write.flush();
             file.createNewFile();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Bad file name, try again.");
         }
     }
