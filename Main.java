@@ -45,6 +45,7 @@ public class Main {
                 if (warehouse.findPart(partNumber)) {//returns true or false, if true call sell method
                     warehouse.sellPart(partNumber);
                     officeManager.orderPartsAlert(bikePart.getMinimumQuantity());
+                    warehouse.userPart(officeManager.orderParts());
                 } else {
                     System.out.println("Invalid part number");
                 }
@@ -186,6 +187,7 @@ public class Main {
             System.out.print("Please enter part quantity: ");
             quantity = userInput.nextInt();
             System.out.print("Please enter the minimum quantity you want in inventory: ");
+            minimumQuantity = userInput.nextInt();
             return new BikePart(partName, partNumber, listPrice, salePrice, onSale, quantity, minimumQuantity);//create bikepart object
 
         } catch (InputMismatchException e) {
