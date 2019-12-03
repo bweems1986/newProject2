@@ -1,21 +1,26 @@
 package com.company;
 
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-public class SalesAssociate extends Warehouse{
+public class SalesAssociate extends Warehouse {
 
+    public static ArrayList<SoldBikePart> soldParts = new ArrayList<>();
     private ArrayList<String> vanParts = new ArrayList<>();
-    private ArrayList<String> partsInvoice = new ArrayList<String>();
+    private ArrayList<String> partsInvoice = new ArrayList<>();
     protected static ArrayList<BikePart> parts = new ArrayList<>();
-    private final String vanName;
+    private String vanName;
 
 
-    public SalesAssociate(String name){//takes in a van name and create van DB
+    public SalesAssociate(String name) {//takes in a van name and create van DB
         this.vanName = name;
 
         parts = new ArrayList();//warehouse array
@@ -33,6 +38,11 @@ public class SalesAssociate extends Warehouse{
             System.out.println("File not found");
         }
     }
+
+    public SalesAssociate() {
+
+    }
+
 
     /**
      * method to save the state of the vanDB
@@ -53,9 +63,9 @@ public class SalesAssociate extends Warehouse{
      * saves the complete part information with the quantity sold and the date and time of the sale
      */
 
-    public void saveSales() {//when a van part is sold, the van part info and the quantity sold and date/time saved to salesDB for that van
+    public void saveSales() {
         try (FileWriter fw = new FileWriter(this.vanName + "SalesDB.txt", true)) {
-            for(int i = 0; vanParts.size() > i; i++)
+            for (int i = 0; vanParts.size() > i; i++)
                 fw.write(String.valueOf(vanParts.get(i)));
 
         } catch (IOException e) {
@@ -72,62 +82,70 @@ public class SalesAssociate extends Warehouse{
      * add the part info and the list price to partsinvoice arraylist, will also give the total of the sale.
      * After this the method saves the state of the vanParts arraylist to the vanName + salesDB. Then saves the state of
      * the vanDB. The vanParts arraylist is then cleared out then an invoice is generated.
+     *
      * @param partNumber
      */
     @Override
     public void sellPart(int partNumber) {
-        Scanner partQuantity  = new Scanner(System.in);
+        Scanner partQuantity = new Scanner(System.in);
         Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        String date = dateFormat.format(now);
 
-            for (int i = 0; parts.size() > i; i++) {
-                BikePart currentPart = parts.get(i);
-                if (currentPart.getPartNumber() == partNumber) {
-                    System.out.println("Enter the quantity you want to sell: ");
-                    int sellQuantity = partQuantity.nextInt();
-                    if (currentPart.getQuantity() < sellQuantity) {
-                        System.out.println("You do not have enough inventory in stock, select a different quantity.");
-                    } else {
 
-                        currentPart.setQuantity(currentPart.getQuantity() - sellQuantity);
-                        currentPart.setSellQuantity(sellQuantity);
-                        currentPart.setDate(now);
+        for (int i = 0; parts.size() > i; i++) {
+            BikePart currentPart = parts.get(i);
+            if (currentPart.getPartNumber() == partNumber) {
+                System.out.println("Enter the quantity you want to sell: ");
+                int sellQuantity = partQuantity.nextInt();
+                if (currentPart.getQuantity() < sellQuantity) {
+                    System.out.println("You do not have enough inventory in stock, select a different quantity.");
+                } else {
 
-                        vanParts.add(currentPart.getPartName() + "," + currentPart.getPartNumber() + "," + currentPart.getListPrice()
-                                + "," + currentPart.getSalePrice() + "," + currentPart.getOnSale() + ","
-                                + currentPart.getSellQuantity(sellQuantity) + "," + currentPart.getDate() + "\n");
+                    currentPart.setQuantity(currentPart.getQuantity() - sellQuantity);
+                    currentPart.setSellQuantity(sellQuantity);
+                    currentPart.setDate(date);
 
-                    if(currentPart.getPartNumber() == partNumber) {
+                    vanParts.add(currentPart.getPartName() + "," + currentPart.getPartNumber() + "," + currentPart.getListPrice()
+                            + "," + currentPart.getSalePrice() + "," + currentPart.getOnSale() + ","
+                            + currentPart.getSellQuantity(sellQuantity) + "," + (currentPart.getSellQuantity(sellQuantity) *
+                            currentPart.getSalePrice() + currentPart.getDate() + "\n"));
+                    //soldPartInfo.add(vanParts);
 
-                        if(currentPart.getOnSale() == Boolean.parseBoolean("true")) {
-                            partsInvoice.add(currentPart.getPartName() + " " + currentPart.getPartNumber() + " " +
-                                    currentPart.getListPrice() + " " + currentPart.getSalePrice() + " " +
-                                    currentPart.getSellQuantity(sellQuantity) + " " + (currentPart.getSellQuantity(sellQuantity) *
+                    if (currentPart.getPartNumber() == partNumber) {
+                        if (currentPart.getOnSale() == Boolean.parseBoolean("true")) {
+                            partsInvoice.add(currentPart.getPartName() + "    " + currentPart.getPartNumber() + "      " +
+                                    currentPart.getListPrice() + "    " + currentPart.getSalePrice() + "        " +
+                                    currentPart.getSellQuantity(sellQuantity) + "      " + (currentPart.getSellQuantity(sellQuantity) *
                                     currentPart.getSalePrice()));
-                        }else {
-                            partsInvoice.add(currentPart.getPartName() + " " + currentPart.getPartNumber() + " " +
-                                    currentPart.getListPrice() + " " + currentPart.getSalePrice() + " " +
-                                    currentPart.getSellQuantity(sellQuantity) + " " + "Total Cost:" + (currentPart.getSellQuantity(sellQuantity) *
+                        } else {
+                            partsInvoice.add(currentPart.getPartName() + "    " + currentPart.getPartNumber() + "      " +
+                                    currentPart.getListPrice() + "    " + currentPart.getSalePrice() + "        " +
+                                    currentPart.getSellQuantity(sellQuantity) + "      " + (currentPart.getSellQuantity(sellQuantity) *
                                     currentPart.getListPrice()));
                         }
                     }
                 }
             }
         }
-            this.saveSales();
-            this.save();
-            vanParts.clear();
-            createInvoice();
+        this.saveSales();
+        this.save();
+        vanParts.clear();
     }
 
     /**
      * This method is identical to the sellPart method above except that it takes in a partName and not a partNumber
-      * @param partName
+     *
+     * @param partName
      */
 
-    public void sellPart(String partName) {//this method now enables you to sell multiples of a part at one time
+    public void sellPart(String partName) {
 
         Scanner partQuantity = new Scanner(System.in);
         Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        String date = dateFormat.format(now);
+
         for (int i = 0; parts.size() > i; i++) {
             BikePart currentPart = parts.get(i);
             if (currentPart.getPartName().equals(partName)) {
@@ -138,24 +156,28 @@ public class SalesAssociate extends Warehouse{
                 } else {
                     currentPart.setQuantity(currentPart.getQuantity() - sellQuantity);
                     currentPart.setSellQuantity(sellQuantity);
-                    currentPart.setDate(now);
+                    currentPart.setDate(date);
 
 
                     vanParts.add(currentPart.getPartName() + "," + currentPart.getPartNumber() + "," + currentPart.getListPrice()
                             + "," + currentPart.getSalePrice() + "," + currentPart.getOnSale() + ","
-                            + currentPart.getSellQuantity(sellQuantity) + "," + currentPart.getDate() + "\n");
+                            + currentPart.getSellQuantity(sellQuantity) + "," +
+                            (currentPart.getSellQuantity(sellQuantity) * currentPart.getSalePrice() +
+                                    "," + currentPart.getDate() + "\n"));
+                    //soldPartInfo.add(vanParts);
 
-                    if (currentPart.getPartName() == partName) {
+
+                    if (currentPart.getPartName().equals(partName)) {
 
                         if (currentPart.getOnSale() == Boolean.parseBoolean("true")) {
-                            partsInvoice.add(currentPart.getPartName() + " " + currentPart.getPartNumber() + " " +
-                                    currentPart.getListPrice() + " " + currentPart.getSalePrice() + " " +
-                                    currentPart.getSellQuantity(sellQuantity) + " " + (currentPart.getSellQuantity(sellQuantity) *
+                            partsInvoice.add(currentPart.getPartName() + "    " + currentPart.getPartNumber() + "      " +
+                                    currentPart.getListPrice() + "    " + currentPart.getSalePrice() + "        " +
+                                    currentPart.getSellQuantity(sellQuantity) + "      " + (currentPart.getSellQuantity(sellQuantity) *
                                     currentPart.getSalePrice()));
                         } else {
-                            partsInvoice.add(currentPart.getPartName() + " " + currentPart.getPartNumber() + " " +
-                                    currentPart.getListPrice() + " " + currentPart.getSalePrice() + " " +
-                                    currentPart.getSellQuantity(sellQuantity) + " " + "Total Cost:" + (currentPart.getSellQuantity(sellQuantity) *
+                            partsInvoice.add(currentPart.getPartName() + "    " + currentPart.getPartNumber() + "      " +
+                                    currentPart.getListPrice() + "    " + currentPart.getSalePrice() + "        " +
+                                    currentPart.getSellQuantity(sellQuantity) + "      " + (currentPart.getSellQuantity(sellQuantity) *
                                     currentPart.getListPrice()));
                         }
                     }
@@ -165,12 +187,11 @@ public class SalesAssociate extends Warehouse{
         this.saveSales();
         this.save();
         vanParts.clear();
-        createInvoice();
-
     }
 
     /**
      * this method finds a part by partNumber
+     *
      * @param partNumber
      * @return found
      */
@@ -186,8 +207,10 @@ public class SalesAssociate extends Warehouse{
         return found;
 
     }
+
     /**
      * Finds part by name. If part is not in the vanwarehouse display invalid part name
+     *
      * @param partName
      * @return
      */
@@ -210,11 +233,80 @@ public class SalesAssociate extends Warehouse{
     }
 
     /**
-     * This method is used to generate an invoice, currently not working***** if you enter in multiple parts it
-     * will print the first part twice.
+     * This method is used to generate an invoice
      */
+    public void createInvoice() {
+        Date date = new Date();
+        Scanner stdin = new Scanner(System.in);
+        System.out.println("Enter the shop name: ");
+        String shopName = stdin.next();
 
-    public void createInvoice(){
-        System.out.println(partsInvoice.toString().replace("[","").replace("]","") + "\n");
+
+        System.out.println("Sales invoice for" + " " + shopName + "," + " " + date);
+        System.out.println("Part Name   Part Number     Price   Sale Price  Qty     Total Cost");
+
+
+        for (int i = 0; i < partsInvoice.size(); i++)
+            System.out.println(partsInvoice.get(i));
+    }
+
+    public double commission() {
+        ArrayList<SoldBikePart> inventory = new ArrayList<>();
+        ArrayList<Double> totalSales = new ArrayList<>();
+        Scanner fileReader = null;
+        Scanner stdin;
+        String fileName;
+        File bikeInfo;
+        double salary;
+
+        stdin = new Scanner(System.in);
+        System.out.println("Enter van name: ");
+        fileName = stdin.next();
+
+        try {
+            bikeInfo = new File("van" + fileName + "SalesDB.txt");
+            fileReader = new Scanner(bikeInfo);
+            while (fileReader.hasNextLine()) { //add files to ArrayList
+                SoldBikePart currentPart = new SoldBikePart(fileReader.nextLine());
+                inventory.add(currentPart);
+
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found.");
+            System.out.println("Please enter another file name and try again");
+        }
+
+
+        if (soldParts.size() == 0) {
+            for (int i = 0; inventory.size() > i; i++) {
+                soldParts.add(inventory.get(i));
+            }
+        }
+        System.out.println("Enter the start date: ");
+        int start = stdin.nextInt();
+        System.out.println("Enter the end date: ");
+        int end = stdin.nextInt();
+        for (int i = 0; i < soldParts.size(); i++) {
+            SoldBikePart currentPart = soldParts.get(i);
+            if((currentPart.getDate() >= start) &&  (currentPart.getDate() <= end)){
+                //System.out.print(currentPart.getTotalSale() + ",");
+                totalSales.add(currentPart.getTotalSale());
+            }
+        }
+
+        double sum = 0;
+
+        for(int i = 0; i < totalSales.size(); i++){
+             sum += totalSales.get(i);
+
+        }
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
+
+        salary = (sum * .15);
+        System.out.print("Your salary for the sales period is: " + numberFormat.format(salary) + "\n");
+        return sum;
     }
 }
+
+
+

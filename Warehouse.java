@@ -1,7 +1,6 @@
 package com.company;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.*;
@@ -77,7 +76,7 @@ public class Warehouse {
      * @param partNumber
      */
 
-    public void sellPart(int partNumber) {//this method now enables you to sell multiples of a part at one time
+    public void sellPart(int partNumber) throws FileNotFoundException {//this method now enables you to sell multiples of a part at one time
         Scanner partQuantity  = new Scanner(System.in);
         Date now = new Date();
         for (int i = 0; bikeParts.size() > i; i++) {
@@ -87,7 +86,7 @@ public class Warehouse {
                 int sellQuantity = partQuantity.nextInt();
                 currentPart.setQuantity(currentPart.getQuantity() - sellQuantity);
                 if (currentPart.getOnSale()) {
-                    System.out.println("You're in luck! This item is on sale! \n PartName: "
+                    System.out.println("PartName: "
                             + currentPart.getPartName() + "  Sale Price: " + currentPart.getSalePrice()
                             + "  Sale Date and Time: " + now);
                 } else {
@@ -96,6 +95,7 @@ public class Warehouse {
                 }
             }
         }
+
 
         this.save();
 
@@ -124,8 +124,9 @@ public class Warehouse {
      * list price. If part is not in the warehouse display invalid part name
      *
      * @param partName
+     * @return
      */
-    public void findPart(String partName) {
+    public boolean findPart(String partName) {
         boolean found = false;
 
         for (int i = 0; bikeParts.size() > i; i++) {
@@ -143,6 +144,7 @@ public class Warehouse {
         if (!found) {
             System.out.println("Invalid part name");
         }
+        return found;
     }
 
     /**
@@ -304,7 +306,7 @@ public class Warehouse {
         vans = aVanList;
     }
 
-
+//maybe create a tostring override here that gives desired sold part info
 }
 
 

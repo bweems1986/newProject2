@@ -2,11 +2,8 @@
 package com.company;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
 
 public class Van extends Warehouse {
 
@@ -46,6 +43,10 @@ public class Van extends Warehouse {
                 System.out.println("Bad file name, try again.");
             }
         }
+    }
+
+    public Van() {
+
     }
 
     /**
@@ -139,6 +140,23 @@ public class Van extends Warehouse {
             e.printStackTrace();
         }
     }
+    public BikePart retrievePart(int partNumber){
+        BikePart thePart = new BikePart();
+        for(int i=0; i < bikeParts.size(); i++) { //find the part we want
+            BikePart currentPart = bikeParts.get(i);
+            if(currentPart.partNumber == (partNumber)){
+                thePart.setQuantity(currentPart.getQuantity());
+                thePart.setPartName(currentPart.getPartName());
+                thePart.setPartNumber(currentPart.getPartNumber());
+                thePart.setListPrice(currentPart.getListPrice());
+                thePart.setSalePrice(currentPart.getSalePrice());
+                thePart.setOnSale(currentPart.getOnSale());
+                thePart.setMinimumQuantity(currentPart.getMinimumQuantity());
+            }
+        }
+        return thePart; //return the part we want
+    }
+
 
 }
 

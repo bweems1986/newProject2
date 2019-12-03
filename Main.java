@@ -10,14 +10,11 @@ package com.company;
  */
 
 
-import javax.xml.soap.SAAJMetaFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
-import static com.company.Warehouse.*;
 
 public class Main {
 
@@ -47,7 +44,7 @@ public class Main {
                 int partNumber = userInput.nextInt();
                 if (warehouse.findPart(partNumber)) {//returns true or false, if true call sell method
                     warehouse.sellPart(partNumber);
-                    officeManager.orderParts(bikePart.getMinimumQuantity());
+                    officeManager.orderPartsAlert(bikePart.getMinimumQuantity());
                 } else {
                     System.out.println("Invalid part number");
                 }
@@ -154,6 +151,10 @@ public class Main {
                         System.out.println("Part not found. Try again.");
                     }
                 }
+                salesAssociate.createInvoice();
+            }
+            if(choice == 21){
+                officeManager.salesCommissions();
             }
         }
     }//closes main method

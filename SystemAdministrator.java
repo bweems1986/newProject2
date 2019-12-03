@@ -34,6 +34,9 @@ public class SystemAdministrator  {
 
     public static Employee createAccount() {//allows system admin to add employees to the account DB
 
+        //if a sales person is entered then assign them a sales van, when sales person makes a sale they have to enter their
+        //name and password if they are not registered to that van tell them  no otherwise make sale
+
         Scanner userInput = new Scanner(System.in);
 
         String firstName = "";
@@ -59,6 +62,8 @@ public class SystemAdministrator  {
             phoneNumber = userInput.next();
             System.out.print("Please enter a job title: ");
             jobTitle = userInput.next();
+
+
             return new Employee(firstName, lastName, email, userName, passWord, phoneNumber, jobTitle);//create account object
 
         } catch (InputMismatchException e) {
@@ -81,6 +86,7 @@ public class SystemAdministrator  {
                     employees.get(i).setPassWord(employee.getPassWord());
                     employees.get(i).setPhoneNumber(employee.getPhoneNumber());
                     employees.get(i).setJobTitle(employee.getJobTitle());
+
                 }
             }
             if (isDuplicate == false) {
@@ -140,3 +146,5 @@ public class SystemAdministrator  {
         }
     }
 }
+//this is a git check
+

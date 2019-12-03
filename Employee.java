@@ -18,6 +18,7 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.jobTitle = jobTitle;
 
+
     }
 
     public void setFirstName(String firstName) {
@@ -47,6 +48,7 @@ public class Employee {
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -88,6 +90,7 @@ public class Employee {
         this.phoneNumber = values[5];
         this.jobTitle = values[6];
 
+
     }
 
 
@@ -95,7 +98,7 @@ public class Employee {
     public String Serialize() {
         String serializedEmployee = (this.firstName + "," + (this.lastName)
                 + "," + (this.email) + "," + (this.userName)
-                + "," + (this.passWord) + "," + (this.phoneNumber) + "," + (this.jobTitle) + ("\n"));
+                + "," + (this.passWord) + "," + (this.phoneNumber) + "," + (this.jobTitle)  + ("\n"));
         return serializedEmployee;
     }
 

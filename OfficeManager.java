@@ -1,5 +1,11 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class OfficeManager extends Warehouse {
 
     Warehouse partWarehouse = new Warehouse();
@@ -45,18 +51,25 @@ public class OfficeManager extends Warehouse {
         }
     }
 
-    public void orderParts(int minimumQuantity) {//need an additional method that notifies all parts that are at/below minimum qty
+    public void orderPartsAlert(int minimumQuantity) {//need an additional method that notifies all parts that are at/below minimum qty
         //this method should be used in conjunction with sellpart
         for (int i = 0; bikeParts.size() > i; i++) {
             BikePart currentPart = bikeParts.get(i);
 
-            if(currentPart.getQuantity() <= currentPart.getMinimumQuantity()){
-                System.out.println("The quantity is getting low for this part, please order more.");
+            if (currentPart.getQuantity() <= currentPart.getMinimumQuantity() + 1) {
+                System.out.println("The quantity is getting low for this part: " + currentPart.getPartName() + " " + "The current quantity is: " + currentPart.getQuantity() + " " + "The minimum quantity is: " + currentPart.getMinimumQuantity());
             }
+
         }
     }
 
-    public void salesCommissions(){
-        //parameters sales associate, start date, end date
+    public void salesCommissions() {
+        SalesAssociate salesAssociate = new SalesAssociate();
+        salesAssociate.commission();
+
     }
 }
+
+
+//add order part to main menu, this will be the same as the enter a part except you need to be able to order multiple parts at a time
+//enter the number of parts you wish to order, enter the part

@@ -1,58 +1,52 @@
 package com.company;
 
-public class BikePart {
+
+public class SoldBikePart {
     protected String partName;
     protected int partNumber;
     private double listPrice;
     private double salePrice;
     private boolean onSale;
     protected int quantity;
-    protected int minimumQuantity;
     private int sellQuantity;
-    private String date;
+    private double totalSale;
+    private int date;
 
-
-    public BikePart(String partName, int partNumber, double listPrice,
-                    double salePrice, boolean onSale, int quantity, int minimumQuantity) { //class constructors
+    public SoldBikePart(String partName, int partNumber, double listPrice,
+                        double salePrice, boolean onSale, int quantity, int sellQuantity, double totalSale, int date) { //class constructors
         this.partName = partName;
         this.partNumber = partNumber;
         this.listPrice = listPrice;
         this.salePrice = salePrice;
         this.onSale = onSale;
         this.quantity = quantity;
-        this.minimumQuantity = minimumQuantity;
+        this.sellQuantity = sellQuantity;
+        this.totalSale = totalSale;
+        this.date = date;
     }
 
     /**
      * store serialized bikePart into an String array of values
      *
-     * @param serializedBikePart
+     * @param serializedSoldBikePart
      */
-    public BikePart(String serializedBikePart) {
+    public SoldBikePart(String serializedSoldBikePart) {
 
-        String[] values = serializedBikePart.split(",");
+        String[] values = serializedSoldBikePart.split(",");
 
         this.partName = values[0];
         this.partNumber = Integer.parseInt(values[1]);
         this.listPrice = Double.parseDouble(values[2]);
         this.salePrice = Double.parseDouble(values[3]);
         this.onSale = Boolean.parseBoolean(values[4]);
-        this.quantity = Integer.parseInt(values[5]);
-        this.minimumQuantity = Integer.parseInt(values[6]);
+        this.sellQuantity = Integer.parseInt(values[5]);
+        this.totalSale = Double.parseDouble(values[6]);
+        this.date = Integer.parseInt(values[7]);
+
 
     }
 
-    public BikePart(String partName, int partNumber, double listPrice,
-                    double salePrice, int quantity) {
-        this.partName = partName;
-        this.partNumber = partNumber;
-        this.listPrice = listPrice;
-        this.salePrice = salePrice;
-        this.quantity = quantity;
-
-    }
-    public BikePart(){
-
+    public SoldBikePart() {
     }
 
     /**
@@ -62,11 +56,10 @@ public class BikePart {
      */
 
     public String Serialize() {
-        String serializeBikePart = (this.partName + "," + Integer.toString(this.partNumber)
+        String serializeSoldBikePart = (this.partName + "," + Integer.toString(this.partNumber)
                 + "," + Double.toString(this.listPrice) + "," + Double.toString(this.salePrice)
-                + "," + Boolean.toString(this.onSale) + "," +
-                Integer.toString(this.quantity) + "," + Integer.toString(this.minimumQuantity) + "\n");
-        return serializeBikePart;
+                + "," + Boolean.toString(this.onSale) + ","  + Integer.toString(this.sellQuantity) + "," + this.totalSale + "," + this.date + "\n");
+        return serializeSoldBikePart;
     }
 
     /**
@@ -99,14 +92,6 @@ public class BikePart {
      */
     public void setPartNumber(int partNumber) {
         this.partNumber = partNumber;
-    }
-
-    /**
-     * sets quantity of a bike part
-     * @param quantity
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     /**
@@ -149,13 +134,6 @@ public class BikePart {
         return partNumber;
     }
 
-    /**
-     * gets quantity of a bike part
-     * @return quantity
-     */
-    public int getQuantity() {
-        return quantity;
-    }
 
     /**
      * gets on sale boolean of a bike part
@@ -165,32 +143,34 @@ public class BikePart {
         return onSale;
     }
 
-    public void setMinimumQuantity(int minimumQuantity) {
-        this.minimumQuantity = minimumQuantity;
-    }
-
-    public int getMinimumQuantity() {
-        return minimumQuantity;
-    }
-
-    public int getSellQuantity(int sellQuantity) {
-        return this.sellQuantity;
-    }
+    public int getSellQuantity(int sellQuantity){return this.sellQuantity;}
 
     public void setSellQuantity(int sellQuantity) {
         this.sellQuantity = sellQuantity;
     }
 
-    public void setDate(String date) {
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate() {
         this.date = date;
     }
 
-    public String getDate() {
-        return date;
+    public double getTotalSale() {
+        return totalSale;
     }
+
+    public void setTotalSale(double totalSale) {
+        this.totalSale = totalSale;
+    }
+
+    @Override
+    public String toString(){
+        return partNumber + "," + partName + "," + listPrice + "," + salePrice + "," + sellQuantity + "," + date;
+    }
+
 }
-
-
 
 
 
