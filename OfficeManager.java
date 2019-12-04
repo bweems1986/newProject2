@@ -20,8 +20,8 @@ public class OfficeManager extends Warehouse {
 
             if (currentPart.getPartName().equals(partName)) {
                 found = true;
-                System.out.println("PartName: " + currentPart.getPartName() + "PartNumber: " + currentPart.getPartNumber() + "ListPrice: " + currentPart.getListPrice() + "SalePrice: "
-                        + currentPart.getSalePrice() + "Quantity: " + currentPart.getQuantity());
+                System.out.println("PartName: " + currentPart.getPartName() + " PartNumber: " + currentPart.getPartNumber() + " ListPrice: " + currentPart.getListPrice() + " SalePrice: "
+                        + currentPart.getSalePrice() + " Quantity: " + currentPart.getQuantity());
             }
         }
         if (!found) {

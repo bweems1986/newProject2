@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class SalesAssociate extends Warehouse {
@@ -109,7 +110,7 @@ public class SalesAssociate extends Warehouse {
                     vanParts.add(currentPart.getPartName() + "," + currentPart.getPartNumber() + "," + currentPart.getListPrice()
                             + "," + currentPart.getSalePrice() + "," + currentPart.getOnSale() + ","
                             + currentPart.getSellQuantity(sellQuantity) + "," + (currentPart.getSellQuantity(sellQuantity) *
-                            currentPart.getSalePrice() + currentPart.getDate() + "\n"));
+                            currentPart.getSalePrice()) + "," + currentPart.getDate() + "\n");
                     //soldPartInfo.add(vanParts);
 
                     if (currentPart.getPartNumber() == partNumber) {
@@ -162,8 +163,8 @@ public class SalesAssociate extends Warehouse {
                     vanParts.add(currentPart.getPartName() + "," + currentPart.getPartNumber() + "," + currentPart.getListPrice()
                             + "," + currentPart.getSalePrice() + "," + currentPart.getOnSale() + ","
                             + currentPart.getSellQuantity(sellQuantity) + "," +
-                            (currentPart.getSellQuantity(sellQuantity) * currentPart.getSalePrice() +
-                                    "," + currentPart.getDate() + "\n"));
+                            (currentPart.getSellQuantity(sellQuantity) * currentPart.getSalePrice()) +
+                                    "," + currentPart.getDate() + "\n");
                     //soldPartInfo.add(vanParts);
 
 
@@ -191,7 +192,6 @@ public class SalesAssociate extends Warehouse {
 
     /**
      * this method finds a part by partNumber
-     *
      * @param partNumber
      * @return found
      */
@@ -210,7 +210,6 @@ public class SalesAssociate extends Warehouse {
 
     /**
      * Finds part by name. If part is not in the vanwarehouse display invalid part name
-     *
      * @param partName
      * @return
      */
@@ -250,6 +249,13 @@ public class SalesAssociate extends Warehouse {
             System.out.println(partsInvoice.get(i));
     }
 
+    /**
+     * this method is used to generate the commissions. The van sales DB holds all of the sales of that van/person.
+     * The method uses the start date and end date entered by the user to get those sales for the given dates.
+     * The total sales for those dates are added together and them multiplied by the commission rate. Which then returns
+     * the salary commission for the sale rep for the time period specified.
+     * @return
+     */
     public double commission() {
         ArrayList<SoldBikePart> inventory = new ArrayList<>();
         ArrayList<Double> totalSales = new ArrayList<>();
@@ -295,11 +301,15 @@ public class SalesAssociate extends Warehouse {
         }
 
         double sum = 0;
+        Iterator<Double> iterator = totalSales.iterator();
+        while (iterator.hasNext()){
+            sum += iterator.next();
+        }
 
-        for(int i = 0; i < totalSales.size(); i++){
+        /*for(int i = 0; i < totalSales.size(); i++){
              sum += totalSales.get(i);
 
-        }
+        }*/
         DecimalFormat numberFormat = new DecimalFormat("#.00");
 
         salary = (sum * .15);

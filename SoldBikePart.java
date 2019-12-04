@@ -27,7 +27,6 @@ public class SoldBikePart {
 
     /**
      * store serialized bikePart into an String array of values
-     *
      * @param serializedSoldBikePart
      */
     public SoldBikePart(String serializedSoldBikePart) {
@@ -46,12 +45,9 @@ public class SoldBikePart {
 
     }
 
-    public SoldBikePart() {
-    }
 
     /**
      * convert its state to a byte stream so that the byte stream can be reverted back into a copy of the object
-     *
      * @return serializeBikePart
      */
 
@@ -62,107 +58,13 @@ public class SoldBikePart {
         return serializeSoldBikePart;
     }
 
-    /**
-     * Sets part name of a bike part
-     * @param partName
-     */
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
-
-    /**
-     * sets if a part is on sale for a bike part
-     * @param onSale
-     */
-    public void setOnSale(boolean onSale) {
-        this.onSale = onSale;
-    }
-
-    /**
-     * sets list price of a bike part
-     * @param listPrice
-     */
-    public void setListPrice(double listPrice) {
-        this.listPrice = listPrice;
-    }
-
-    /**
-     * sets part number of a bike part
-     * @param partNumber
-     */
-    public void setPartNumber(int partNumber) {
-        this.partNumber = partNumber;
-    }
-
-    /**
-     * sets sale price of a bike part
-     * @param salePrice
-     */
-    public void setSalePrice(double salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    /**
-     * gets part name of a bike part
-     * @return partName
-     */
-    public String getPartName() {
-        return partName;
-    }
-
-    /**
-     * gets list price of a bike part
-     * @return listPrice
-     */
-    public double getListPrice() {
-        return listPrice;
-    }
-
-    /**
-     * gets sale price of a bike part
-     * @return salePrice
-     */
-    public double getSalePrice() {
-        return salePrice;
-    }
-
-    /**
-     * gets Part number of a bike part
-     * @return partNumber
-     */
-    public int getPartNumber() {
-        return partNumber;
-    }
-
-
-    /**
-     * gets on sale boolean of a bike part
-     * @return onSale
-     */
-    public boolean getOnSale() {
-        return onSale;
-    }
-
-    public int getSellQuantity(int sellQuantity){return this.sellQuantity;}
-
-    public void setSellQuantity(int sellQuantity) {
-        this.sellQuantity = sellQuantity;
-    }
 
     public int getDate() {
         return date;
     }
 
-    public void setDate() {
-        this.date = date;
-    }
-
     public double getTotalSale() {
         return totalSale;
-    }
-
-    public void setTotalSale(double totalSale) {
-        this.totalSale = totalSale;
     }
 
     @Override

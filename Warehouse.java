@@ -1,8 +1,9 @@
 package com.company;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -76,7 +77,7 @@ public class Warehouse {
      * @param partNumber
      */
 
-    public void sellPart(int partNumber) throws FileNotFoundException {//this method now enables you to sell multiples of a part at one time
+    public void sellPart(int partNumber) {//this method now enables you to sell multiples of a part at one time
         Scanner partQuantity  = new Scanner(System.in);
         Date now = new Date();
         for (int i = 0; bikeParts.size() > i; i++) {
@@ -206,6 +207,7 @@ public class Warehouse {
                     bikeParts.get(i).setQuantity(bikePart.getQuantity() + bikeParts.get(i).getQuantity());
                     bikeParts.get(i).setListPrice(bikePart.getListPrice());
                     bikeParts.get(i).setSalePrice(bikePart.getSalePrice());
+                    bikeParts.get(i).setMinimumQuantity(bikePart.getMinimumQuantity());
                 }
             }
             if (isDuplicate == false) {
@@ -295,18 +297,6 @@ public class Warehouse {
         return vans;
     }
 
-    public static void addVan(Van aVan) {
-        vans.add(aVan);
-    }
-
-    public static ArrayList<BikePart> getParts() {
-        return bikeParts;
-    }
-    public static void setVans(ArrayList<Van> aVanList) {
-        vans = aVanList;
-    }
-
-//maybe create a tostring override here that gives desired sold part info
 }
 
 
