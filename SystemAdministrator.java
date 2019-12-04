@@ -1,6 +1,5 @@
 package com.company;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -20,7 +19,7 @@ public class SystemAdministrator {
     private Warehouse warehouse = new Warehouse();
     SalesAssociate salesAssociate = new SalesAssociate();
     private WarehouseManager warehouseManager = new WarehouseManager();
-    private BikePart bikePart = new BikePart();
+    BikePart bikePart = new BikePart();
 
 
 
@@ -48,9 +47,6 @@ public class SystemAdministrator {
     }
 
     private static Employee createAccount() {//allows system admin to add employees to the account DB
-
-        //if a sales person is entered then assign them a sales van, when sales person makes a sale they have to enter their
-        //name and password if they are not registered to that van tell them  no otherwise make sale
 
         Scanner userInput = new Scanner(System.in);
 
@@ -83,7 +79,6 @@ public class SystemAdministrator {
                 jobTitle = jobTitle + vanLetter;
 
             }
-
 
             return new Employee(firstName, lastName, email, userName, passWord, phoneNumber, jobTitle);//create account object
 
@@ -146,6 +141,8 @@ public class SystemAdministrator {
                 if (numChoice == 2) {
                     createVanInventoryFile();
                     readTransfer();
+                    officeManager.orderPartsAlert(bikePart.getMinimumQuantity());
+
                 }
                 if (numChoice == 3){
                     System.out.println("Enter an account username to delete: ");
@@ -164,10 +161,10 @@ public class SystemAdministrator {
         }else {
             for (int i = 0; employees.size() > i; i++) {
                 if ((employees.get(i).getUserName().equals(userName) && (employees.get(i).getPassWord().equals(passWord)))) {
-                    System.out.println("You are logged in as : " + employees.get(i).getJobTitle());
-                    System.out.println("Enter your van letter: ");
+                    System.out.println("You are logged in as a: " + employees.get(i).getJobTitle());
+                    System.out.println("Enter the van letter assigned to you: ");
                     String vanLetter = login.next();
-                    if (employees.get(i).getJobTitle().contains("salesassociate"+vanLetter)) {
+                    if (employees.get(i).getJobTitle().equals("salesassociate"+vanLetter)) {
                         while(numChoice != 6) {
                             System.out.println("Please select an option from the Sales Associate menu: \n" + "1. Load sales van\n" + "2. Make sale by number and generate invoice\n" +
                                     "3. Make sale by name and generate invoice\n" + "4. Sort van by part name\n" + "5. Sort van by part number\n" + "6. Exit\n");
@@ -176,10 +173,10 @@ public class SystemAdministrator {
                                 readTransfer();
                             }
                             if (numChoice == 2) {
-                                System.out.println("Enter your van name: ");
+                                System.out.println("Enter your van name: ");//example vanA
                                 String vanName = userInput.next();
                                 SalesAssociate salesAssociate = new SalesAssociate(vanName);
-                                if(!vanName.equals(vanLetter)){
+                                if(!vanName.equals("van"+vanLetter)){
                                     System.out.println("You are not allowed to access this sales van.");
                                     System.exit(0);
                                 }
@@ -207,6 +204,10 @@ public class SystemAdministrator {
                                 System.out.println("Enter your van name: ");
                                 String vanName = userInput.next();
                                 SalesAssociate salesAssociate = new SalesAssociate(vanName);
+                                if(!vanName.equals("van"+vanLetter)){
+                                    System.out.println("You are not allowed to access this sales van.");
+                                    System.exit(0);
+                                }
 
                                 Scanner partQuantity = new Scanner(System.in);
 
@@ -332,7 +333,6 @@ public class SystemAdministrator {
                         if (numChoice == 10) {
                             System.exit(0);
                         }
-                        //menu options with corresponding methods
                     }
                 }
             }
@@ -538,5 +538,4 @@ public class SystemAdministrator {
             throw e;
         }
     }
-
 }
